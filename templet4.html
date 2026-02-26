@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Eventra</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script> 
+  <style>
+    body {
+      background: #f4f2ec;
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      width: 70%;
+      margin: 30px auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2, h3 {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    .print-btn {
+      display: block;
+      margin: 20px auto;
+      background: #000;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .footer {
+      text-align: center;
+      color: #1a1616;
+      font-size: 14px;
+    }
+    .classic {
+      text-align: center;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    table, th, td {
+      border: 1px solid #ccc;
+    }
+    th, td {
+      padding: 8px;
+      text-align: center;
+    }
+    th {
+      background: #f0f0f0;
+    }
+    img{
+       border-radius: 50%;
+      
+    }
+  </style>
+ <script>
+function showInvoice() {
+  const customerName = localStorage.getItem("name") || "Customer";
+  const eventName = localStorage.getItem("Event_Name") || "N/A";
+  const address = localStorage.getItem("address") || "Address";
+  const email = localStorage.getItem("email") || "Email";
+  const members = parseInt(localStorage.getItem("No_of_Members")) || 1;
+  const price = parseFloat(localStorage.getItem("Price")) || 0;
+  const eventdate = localStorage.getItem("Date") || new Date().toISOString().split("T")[0];
+
+  const subtotal = price * members;
+  const cgst = parseFloat(localStorage.getItem("CGST")) || subtotal * 0.02;
+  const sgst = parseFloat(localStorage.getItem("SGST")) || subtotal * 0.02;
+  const tax = cgst + sgst;
+  const grandtotal = parseFloat(localStorage.getItem("grandTotal")) || (subtotal + cgst + sgst);
+
+  document.getElementById("name").innerText = customerName;
+  document.getElementById("event").innerText = eventName;
+  document.getElementById("members").innerText = members;
+  document.getElementById("date").innerText = eventdate;
+  document.getElementById("address").innerText = address;
+  document.getElementById("email").innerText = email;
+  document.getElementById("price").innerText = price.toFixed(2);
+  document.getElementById("cgst").innerText = cgst.toFixed(2);
+  document.getElementById("sgst").innerText = sgst.toFixed(2);
+  document.getElementById("tax").innerText = tax.toFixed(2);
+  document.getElementById("amount").innerText = subtotal.toFixed(2);
+  document.getElementById("grandtotal").innerText = grandtotal.toFixed(2);
+  document.getElementById("item").innerText = eventName;
+}
+
+window.onload = showInvoice;
+</script>
+
+ 
+</head>
+<body>
+  
+<div class="container classic">
+  <div class="row  ">
+    <div class="col">
+      <img class="rounded-circle" src="logo.jpg" alt="not found" style="width: 150px; height: 150px; margin-right: 450px;">
+    </div>
+    <div class="col text-end">
+       <p><strong>Date:</strong> <span id="date"></span></p>
+    </div>
+  </div>
+  <h2 class="mb-5">INVOICE BILL / RECEIPT </h2>
+  <div class="row">
+    <div class="col">
+      <p><strong>Customer Name:</strong> <span id="name"></span></p>
+      <p><strong>Address:</strong> <span id="address"></span></p>
+      <p><strong>Email:</strong> <span id="email"></span></p>
+     
+    </div>
+    <div class="col">
+      <p><strong>Event:</strong> <span id="event"></span></p>
+      <p><strong>Amount:</strong> <span id="amount"></span></p>
+      <p><strong>Tax:</strong> <span id="tax"></span></p>
+    </div>
+  </div>
+
+  <table>
+    <tr>
+      <th>Item</th>
+      <th>Members</th>
+      <th>Price</th>
+      <th>CGST</th>
+      <th>SGST</th>
+      <th>Total</th>
+    </tr>
+    <tr>
+      <td id="item"></td>
+      <td id="members"></td>
+      <td id="price"></td>
+      <td id="cgst"></td>
+      <td id="sgst"></td>
+      <td id="grandtotal"></td>
+    </tr>
+  </table>
+  
+  <button class="print-btn" onclick="window.print()">Print Bill</button>
+  <p class="text-center"><strong>Thank you for registering!</strong><br>We look forward to seeing you at the event.</p>
+  <div class="footer">© 2025 Eventra</div>
+</div>
+
+<!-- <script>
+window.onload = function() {
+  document.getElementById("name").innerText = localStorage.getItem("name") || "";
+  document.getElementById("address").innerText = localStorage.getItem("address") || "";
+  document.getElementById("email").innerText = localStorage.getItem("email") || "";
+  document.getElementById("event").innerText = localStorage.getItem("event") || "";
+  document.getElementById("members").innerText = localStorage.getItem("members") || "";
+  document.getElementById("price").innerText = localStorage.getItem("price") || "";
+  document.getElementById("cgst").innerText = localStorage.getItem("cgst") || "";
+  document.getElementById("sgst").innerText = localStorage.getItem("sgst") || "";
+  document.getElementById("amount").innerText = localStorage.getItem("amount") || "";
+
+  let cgst = parseFloat(localStorage.getItem("cgst")) || 0;
+  let sgst = parseFloat(localStorage.getItem("sgst")) || 0;
+  document.getElementById("tax").innerText = (cgst + sgst).toFixed(2);
+
+  let total = localStorage.getItem("total") || "0";
+  document.getElementById("total").innerText = total;
+  document.getElementById("finaltotal").innerText = total;
+
+  document.getElementById("item").innerText = localStorage.getItem("event") || "Event Pass";
+  document.getElementById("date").innerText = new Date().toLocaleDateString();
+};
+</script> -->
+
+</body>
+</html>
